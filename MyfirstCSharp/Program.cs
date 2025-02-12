@@ -25,6 +25,7 @@ namespace MyfirstCSharp
 
             Console.WriteLine("Grand Lotto numbers:");
             Console.WriteLine(string.Join(", ", GrandLotto));
+            Console.WriteLine("Hi");
 
         }
     }
