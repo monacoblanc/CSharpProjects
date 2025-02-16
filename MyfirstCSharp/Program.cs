@@ -23,7 +23,8 @@ namespace MyfirstCSharp
 
             //double orders = new double[3];
 
-            int CartQuantity = 0;
+            int CartCounter = 0;
+            List<(string ProductName, int Price, int Quantity)> CartItems = new List<(string, int, int)>();
             bool ContinueShopping = true;
 
 
@@ -43,8 +44,17 @@ namespace MyfirstCSharp
                     var item = inventory.FirstOrDefault(i => i.ProductName.Equals(order1, StringComparison.OrdinalIgnoreCase));
                     if (item != null)
                     {
-                        Console.WriteLine($"You ordered: {item.ProductName}");
-                        CartQuantity++;
+                        Console.WriteLine("Enter quantity: ");
+                        if (int.TryParse(Console.ReadLine(), out int quantity) && quantity > 0) //TryParse returns a boolean value that indicates whether the conversion succeeded. If the conversion succeeded, the return value is true and will carry whatever value is converted to the out parameter. IF not, it will return false. Then , the program will proceed to the next condition and it will return a value of 0.
+                        {
+                            CartItems.Add((item.ProductName, item.Price, quantity));
+                            Console.WriteLine($"You ordered: {item.ProductName} - {quantity} pcs");
+                            CartCounter++;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid quantity.");
+                        }
                     }
                     else
                     {
@@ -60,8 +70,16 @@ namespace MyfirstCSharp
                 }
             }
 
-            //Console.WriteLine(inventory[0].Price);
-            Console.WriteLine($"Cart Quantity: {CartQuantity}");
+            Console.WriteLine("Cart Items:");
+            int grandTotal = 0;
+            foreach (var cartItem in CartItems)
+            {
+                int subTotal = cartItem.Price * cartItem.Quantity;
+                grandTotal += subTotal;
+                Console.WriteLine($"{cartItem.ProductName} {cartItem.Price} pesos * {cartItem.Quantity} Sub Total {subTotal}");
+            }
+            Console.WriteLine($"Grand Total: {grandTotal} pesos");
+
 
 
             //Next Goals:
