@@ -45,11 +45,20 @@ namespace MyfirstCSharp
                     if (item != null)
                     {
                         Console.WriteLine("Enter quantity: ");
-                        if (int.TryParse(Console.ReadLine(), out int quantity) && quantity > 0) //TryParse returns a boolean value that indicates whether the conversion succeeded. If the conversion succeeded, the return value is true and will carry whatever value is converted to the out parameter. IF not, it will return false. Then , the program will proceed to the next condition and it will return a value of 0.
+                        if (int.TryParse(Console.ReadLine(), out int quantity) && quantity > 0)
                         {
-                            CartItems.Add((item.ProductName, item.Price, quantity));
+                            var existingItemIndex = CartItems.FindIndex(ci => ci.ProductName == item.ProductName);
+                            if (existingItemIndex >= 0)
+                            {
+                                var existingItem = CartItems[existingItemIndex];
+                                CartItems[existingItemIndex] = (existingItem.ProductName, existingItem.Price, existingItem.Quantity + quantity);
+                            }
+                            else
+                            {
+                                CartItems.Add((item.ProductName, item.Price, quantity));
+                                CartCounter++;
+                            }
                             Console.WriteLine($"You ordered: {item.ProductName} - {quantity} pcs");
-                            CartCounter++;
                         }
                         else
                         {
@@ -72,6 +81,8 @@ namespace MyfirstCSharp
 
             Console.WriteLine("Cart Items:");
             int grandTotal = 0;
+
+
             foreach (var cartItem in CartItems)
             {
                 int subTotal = cartItem.Price * cartItem.Quantity;
@@ -79,16 +90,6 @@ namespace MyfirstCSharp
                 Console.WriteLine($"{cartItem.ProductName} {cartItem.Price} pesos * {cartItem.Quantity} Sub Total {subTotal}");
             }
             Console.WriteLine($"Grand Total: {grandTotal} pesos");
-
-
-
-            //Next Goals:
-            //Goal 1: Compute the total of the items in the cart.
-            //Goal 2: Display the names of the items in the cart with their prices, quantities, and sub total price.
-            //Goal 3: Display the grand total price of the cart.
-
-
-            //var total = POS.ComputeTotal(10.0, 20.0, 30.0, 40.0);
 
 
         }

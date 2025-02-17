@@ -82,8 +82,4 @@ public class StoreInventory
         Price = price;
         Quantity = quantity;
     }
-    public int ComputeTotal()
-    {
-        return Price * Quantity;
-    }
 }
